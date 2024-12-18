@@ -1,0 +1,15 @@
+﻿@model MVC_EF.Exemplo1.Models.Autor
+
+@{
+    ViewData["Title"] = "Excluir Autor";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Tem certeza que deseja excluir o autor @Model.AutorNome?</h3>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="AutorID" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a href="@Url.Action("Index", "Autor")" class="btn btn-secondary">Cancelar</a>
+</form>

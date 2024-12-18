@@ -25,4 +25,6 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new EditoraConfiguration());
         modelBuilder.ApplyConfiguration(new OperacaoCompraVendaConfiguration());
     }
+    
+    
 }

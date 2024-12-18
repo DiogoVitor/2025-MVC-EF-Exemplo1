@@ -7,11 +7,10 @@ public class Autor
 {
     public int AutorID { get; set; }
     public string AutorNome { get; set; }
-    public DateOnly? AutorDataNascimento { get; set; }
+    public DateTime? AutorDataNascimento { get; set; }
     public string? AutorEmail { get; set; }
 
     public ICollection<AutorLivro>? LivrosDoAutor { get; set; }
-
 }
 
 public class AutorConfiguration : IEntityTypeConfiguration<Autor>
@@ -19,12 +18,14 @@ public class AutorConfiguration : IEntityTypeConfiguration<Autor>
     public void Configure(EntityTypeBuilder<Autor> builder)
     {
         builder.HasKey(p => p.AutorID);
-        
+
         builder.HasIndex(p => p.AutorNome);
-        
+
         builder.Property(p => p.AutorNome).HasMaxLength(80).IsRequired();
         builder.Property(p => p.AutorEmail).HasMaxLength(80);
+
+        // Corrigido para definir o valor padrão da data corretamente
         builder.Property(p => p.AutorDataNascimento)
-            .HasDefaultValue(DateOnly.FromDateTime(DateTime.Parse("1970/01/01")));
+            .HasDefaultValue(new DateTime(1970, 1, 1));  // Definindo o valor default de 01/01/1970
     }
 }

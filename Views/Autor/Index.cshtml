@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MVC_EF.Exemplo1.Models.Autor>
+
+@{
+    ViewData["Title"] = "Lista de Autores";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Data de Nascimento</th>
+        <th>Email</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var autor in Model)
+    {
+        <tr>
+            <td>@autor.AutorNome</td>
+            <td>@autor.AutorDataNascimento?.ToString("dd/MM/yyyy")</td>
+            <td>@autor.AutorEmail</td>
+            <td>
+                <!-- Botão Editar -->
+                <a href="@Url.Action("Edit", "Autor", new { id = autor.AutorID })" class="btn btn-primary">Editar</a>
+
+                <!-- Formulário para excluir -->
+                <form action="@Url.Action("DeleteConfirmed", "Autor", new { id = autor.AutorID })" method="post" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este autor?')">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Autor")" class="btn btn-success">Adicionar Autor</a>

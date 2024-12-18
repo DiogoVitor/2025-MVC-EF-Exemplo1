@@ -4,67 +4,87 @@
 @using X.PagedList.Mvc.Core
 @model IPagedList<LivroEditoraAutorListViewModel>
 @{
-    ViewBag.Title = "Gerenciamento de livros";
-    Layout = "_Layout";
+ViewBag.Title = "Gerenciamento de livros";
+Layout = "_Layout";
 }
 
-<h1 class="display-6 my-5">Gerenciamento de livros</h1>
-@if (ViewBag.keyword != "")
-{
-    <div class="alert alert-success" role="alert">
-        Filtrando por "@ViewBag.keyword"
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6">Gerenciamento de Livros</h1>
+        <a class="btn btn-success" asp-controller="Livro" asp-action="Create">
+            <i class="bi bi-plus-lg"></i> Cadastrar Novo Livro
+        </a>
     </div>
-}
-<form asp-action="Index">
-    <div class="input-group">
-        <input name="keyword" type="text" class="form-control"
-               value="@ViewBag.keyword" placeholder="Filtar por..."/>
-        <div class="input-group-append">
-            <button class="btn btn-secondary" type="submit">Filtrar...</button>
-        </div>
-    </div>
-</form>
 
-
-<p>Cadastrar <a asp-controller="Livro" asp-action="Create">novo livro</a>?</p>
-
-<table class="table-striped table">
-    <thead>
-    <tr>
-        <th>@Html.DisplayNameFor(m => m[0].Titulo)</th>
-        <th>@Html.DisplayNameFor(m => m[0].Ano)</th>
-        <th>@Html.DisplayNameFor(m => m[0].Paginas)</th>
-        <th>@Html.DisplayNameFor(m => m[0].ISBN)</th>
-        <th>@Html.DisplayNameFor(m => m[0].Editora)</th>
-        <th>@Html.DisplayNameFor(m => m[0].Autores)</th>
-        <th>Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var livro in Model)
+    @if (!string.IsNullOrEmpty(ViewBag.keyword))
     {
-        <tr>
-            <td>@livro.Titulo</td>
-            <td>@livro.Ano</td>
-            <td>@livro.Paginas</td>
-            <td>@livro.ISBN</td>
-            <td>@livro.Editora</td>
-            <td>@livro.Autores</td>
-            <td>
-                <a asp-controller="Livro" asp-action="Edit" asp-route-id="@livro.Id"><button type="button" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></button></a>
-                <a asp-controller="Livro" asp-action="Delete" asp-route-id="@livro.Id"><button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i></button></a>
-                <a asp-controller="Livro" asp-action="AssociarAutor" asp-route-id="@livro.Id"><button type="button" class="btn btn-primary"><i class="bi bi-people"></i></button></a>
-            </td>
-        </tr>
+    <div class="alert alert-success" role="alert">
+        Filtrando por "<strong>@ViewBag.keyword</strong>"
+    </div>
     }
-    </tbody>
-</table>
-<p class="small">Mostrando registros de @ViewBag.primeiro até 
-    @ViewBag.ultimo de um total de @ViewBag.total</p>
 
-@Html.PagedListPager((IPagedList)Model,
-    pagina => Url.Action("Index", new { pagina = pagina, keyword = @ViewBag.keyword }),
-    new PagedListRenderOptions {
+    <form asp-action="Index" class="mb-4">
+        <div class="input-group">
+            <input name="keyword" type="text" class="form-control" value="@ViewBag.keyword" placeholder="Filtrar por..." />
+            <button class="btn btn-secondary" type="submit">
+                <i class="bi bi-search"></i> Filtrar
+            </button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(m => m[0].Titulo)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Ano)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Paginas)</th>
+                <th>@Html.DisplayNameFor(m => m[0].ISBN)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Editora)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Autores)</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var livro in Model)
+            {
+            <tr>
+                <td>@livro.Titulo</td>
+                <td>@livro.Ano</td>
+                <td>@livro.Paginas</td>
+                <td>@livro.ISBN</td>
+                <td>@livro.Editora</td>
+                <td>@livro.Autores</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary" asp-controller="Livro" asp-action="Edit" asp-route-id="@livro.Id">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn btn-danger" asp-controller="Livro" asp-action="Delete" asp-route-id="@livro.Id">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                        <a class="btn btn-primary" asp-controller="Livro" asp-action="AssociarAutor" asp-route-id="@livro.Id">
+                            <i class="bi bi-people"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="small mt-3">
+        Mostrando registros de <strong>@ViewBag.primeiro</strong> até <strong>@ViewBag.ultimo</strong> de um total de <strong>@ViewBag.total</strong>
+    </p>
+
+    <nav class="mt-4">
+        @Html.PagedListPager((IPagedList)Model,
+        pagina => Url.Action("Index", new { pagina = pagina, keyword = @ViewBag.keyword }),
+        new PagedListRenderOptions
+        {
         LiElementClasses = new string[] { "page-item" },
-        PageClasses = new string[] { "page-link" } 
-    })
+        PageClasses = new string[] { "page-link" }
+        })
+    </nav>
+</div>
