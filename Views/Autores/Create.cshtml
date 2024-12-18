@@ -1,0 +1,33 @@
+﻿@model MVC_EF.Exemplo1.Models.Autor
+
+@{
+    ViewData["Title"] = "Criar Autor";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Autor</h4>
+<hr>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="AutorNome" class="control-label"></label>
+        <input asp-for="AutorNome" class="form-control" />
+        <span asp-validation-for="AutorNome" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AutorDataNascimento" class="control-label"></label>
+        <input asp-for="AutorDataNascimento" class="form-control" />
+        <span asp-validation-for="AutorDataNascimento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AutorEmail" class="control-label"></label>
+        <input asp-for="AutorEmail" class="form-control" />
+        <span asp-validation-for="AutorEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+</form>
+
+<a href="@Url.Action("Index")">Voltar para a lista de autores</a>

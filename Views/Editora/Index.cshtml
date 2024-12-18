@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MVC_EF.Exemplo1.Models.Editora>
+
+@{
+ViewData["Title"] = "Lista de Editoras";
+}
+
+<h2>Lista de Editoras</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Logradouro</th>
+        <th>Número</th>
+        <th>Cidade</th>
+        <th>Telefone</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.EditoraNome</td>
+        <td>@item.EditoraLogradouro</td>
+        <td>@item.EditoraNumero</td>
+        <td>@item.EditoraCidade</td>
+        <td>@item.EditoraTelefone</td>
+    </tr>
+    }
+    </tbody>
+</table>

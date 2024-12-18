@@ -15,11 +15,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Editora> Editoras { get; set; }
     public DbSet<AutorLivro> AutoresLivro { get; set; }
     public DbSet<OperacaoCompraVenda> Operacoes { get; set; }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

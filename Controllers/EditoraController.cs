@@ -12,15 +12,20 @@ public class EditoraController : Controller
     public EditoraController(ApplicationDbContext contexto, IConfiguration configuration)
     {
         _contexto = contexto;
-        var pagesize = Convert.ToInt32(configuration.
-            GetSection("ViewOptions").
-            GetSection("PageSize").Value);
+        var pagesize = Convert.ToInt32(configuration
+            .GetSection("ViewOptions")
+            .GetSection("PageSize").Value);
         _pagesize = pagesize > 0 ? pagesize : 10;
     }
 
+    // Corrigido: Implementação do método Index
     public IActionResult Index()
     {
-        throw new NotImplementedException();
+        // Busca todas as editoras no banco de dados
+        var editoras = _contexto.Editoras.ToList();
+
+        // Passa os dados para a View
+        return View(editoras);
     }
 
     public IActionResult Create()
@@ -76,7 +81,6 @@ public class EditoraController : Controller
             throw;
         }
 
-        return RedirectToAction(nameof(Create));
+        return RedirectToAction(nameof(Index));
     }
-
 }
